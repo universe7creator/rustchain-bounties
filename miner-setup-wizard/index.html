@@ -1,0 +1,138 @@
+br>
+                <strong>Architecture:</strong> ${arch}
+                ${isVintage ? '<br><span style="color: #4ade80;">✓ Vintage hardware detected!</span>' : ''}
+            `;
+
+            if (isVintage) {
+                document.getElementById('antiquityBonus').style.display = 'block';
+            }
+
+            return { os, arch, isVintage };
+        }
+
+        // Navigation
+        function nextStep() {
+            document.getElementById(`step${currentStep}`).classList.remove('active');
+            document.querySelector(`[data-step="${currentStep}"]`).classList.remove('active');
+            document.querySelector(`[data-step="${currentStep}"]`).classList.add('completed');
+            
+            currentStep++;
+            
+            if (currentStep <= totalSteps) {
+                document.getElementById(`step${currentStep}`).classList.add('active');
+                document.querySelector(`[data-step="${currentStep}"]`).classList.add('active');
+            }
+
+            // Update config commands with wallet name
+            if (currentStep === 5) {
+                const walletName = document.getElementById('walletName').value || 'my_miner';
+                document.getElementById('configWalletName').value = walletName;
+                document.getElementById('configCommands').textContent = `# Set the node URL
+export RUSTCHAIN_NODE=https://50.28.86.131
+
+# Verify wallet exists
+clawrtc wallet list`;
+                document.getElementById('mineCommand').textContent = `clawrtc mine --device-id ${walletName}`;
+            }
+        }
+
+        // Copy command functionality
+        function copyCommand(btn) {
+            const pre = btn.previousElementSibling;
+            const text = pre.textContent;
+            navigator.clipboard.writeText(text).then(() => {
+                btn.textContent = 'Copied!';
+                btn.classList.add('copied');
+                setTimeout(() => {
+                    btn.textContent = 'Copy';
+                    btn.classList.remove('copied');
+                }, 2000);
+            });
+        }
+
+        // Python check
+        function checkPython() {
+            const statusDiv = document.getElementById('pythonStatus');
+            statusDiv.innerHTML = `
+                <div class="info-box">
+                    <h3>✅ Python Check Complete</h3>
+                    <p>Please run the command above in your terminal to verify Python is installed.</p>
+                    <p>If you see a version number (3.8+), you're good to go!</p>
+                </div>
+            `;
+            document.getElementById('pythonContinueBtn').style.display = 'inline-block';
+        }
+
+        // Wallet generation
+        function generateWallet() {
+            const walletName = document.getElementById('walletName').value || 'my_miner';
+            
+            // Generate random seed phrase (simulated for demo)
+            const words = [
+                'abandon', 'ability', 'able', 'about', 'above', 'absent', 'absorb', 'abstract', 'absurd', 'abuse', 'access', 'accident',
+                'account', 'accuse', 'achieve', 'acid', 'acoustic', 'acquire', 'across', 'act', 'action', 'actor', 'actress', 'actual'
+            ];
+            
+            const seedPhrase = [];
+            for (let i = 0; i < 12; i++) {
+                seedPhrase.push(words[Math.floor(Math.random() * words.length)]);
+            }
+
+            const seedDiv = document.getElementById('seedPhrase');
+            seedDiv.innerHTML = seedPhrase.map(word => `<div class="seed-word">${word}</div>`).join('');
+            
+            document.getElementById('walletDisplay').style.display = 'block';
+            document.getElementById('walletCommandBox').style.display = 'block';
+            document.getElementById('walletCommand').textContent = `# Create wallet
+clawrtc wallet create ${walletName}
+
+# Or import with seed phrase
+clawrtc wallet import ${walletName} --seed "${seedPhrase.join(' ')}"`;
+            
+            walletGenerated = true;
+            document.getElementById('walletContinueBtn').style.display = 'inline-block';
+        }
+
+        function copySeedPhrase() {
+            const words = Array.from(document.querySelectorAll('.seed-word')).map(el => el.textContent).join(' ');
+            navigator.clipboard.writeText(words).then(() => {
+                alert('Seed phrase copied! Save it securely!');
+            });
+        }
+
+        // Test connection
+        function testConnection() {
+            const resultDiv = document.getElementById('connectionResult');
+            resultDiv.innerHTML = `
+                <div class="info-box" style="margin-top: 20px;">
+                    <h3>🔧 Manual Test Required</h3>
+                    <p>Please run the curl commands above in your terminal.</p>
+                    <p>If you see a JSON response with status, your connection is working!</p>
+                </div>
+            `;
+            document.getElementById('testContinueBtn').style.display = 'inline-block';
+        }
+
+        // Finish setup
+        function finishSetup() {
+            document.getElementById('step7').classList.remove('active');
+            document.getElementById('progressBar').style.display = 'none';
+            document.getElementById('successScreen').classList.add('active');
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            detectPlatform();
+        });
+
+        // Update wallet name in real-time
+        document.getElementById('walletName').addEventListener('input', (e) => {
+            const name = e.target.value || 'my_miner';
+            document.getElementById('configWalletName').value = name;
+            if (document.getElementById('walletCommand').textContent) {
+                document.getElementById('mineCommand').textContent = `clawrtc mine --device-id ${name}`;
+            }
+        });
+    </script>
+</body>
+</html>
