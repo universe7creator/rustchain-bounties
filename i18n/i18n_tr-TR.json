@@ -1,0 +1,54 @@
+{
+  "errors": {
+    "network_timeout": "Ağ zaman aşımına uğradı, lütfen bağlantınızı kontrol edin",
+    "invalid_address": "Geçersiz cüzdan adresi",
+    "insufficient_balance": "Yetersiz bakiye",
+    "transaction_failed": "İşlem başarısız oldu, lütfen tekrar deneyin",
+    "invalid_amount": "Geçersiz miktar",
+    "connection_refused": "Bağlantı reddedildi",
+    "server_error": "Sunucu hatası, lütfen daha sonra tekrar deneyin",
+    "authentication_failed": "Kimlik doğrulama başarısız oldu, lütfen kimlik bilgilerinizi kontrol edin",
+    "rate_limit_exceeded": "İstek limiti aşıldı, lütfen daha sonra tekrar deneyin",
+    "invalid_credentials": "Geçersiz kimlik bilgileri, lütfen tekrar giriş yapın",
+    "resource_not_found": "Kaynak bulunamadı",
+    "permission_denied": "İzin reddedildi",
+    "invalid_input": "Geçersiz giriş, lütfen formatı kontrol edin",
+    "duplicate_entry": "Yinelenen giriş",
+    "operation_timeout": "İşlem zaman aşımına uğradı",
+    "database_error": "Veritabanı hatası",
+    "file_not_found": "Dosya bulunamadı",
+    "invalid_format": "Geçersiz format",
+    "upload_failed": "Yükleme başarısız oldu",
+    "download_failed": "İndirme başarısız oldu",
+    "wallet_not_found": "Cüzdan bulunamadı",
+    "node_offline": "Düğüm çevrimdışı",
+    "sync_error": "Senkronizasyon hatası",
+    "mining_error": "Madencilik hatası",
+    "blockchain_error": "Blok zinciri hatası"
+  },
+  "warnings": {
+    "low_balance": "Düşük bakiye",
+    "network_congestion": "Ağ tıkanıklığı",
+    "deprecated_feature": "Bu özellik kullanımdan kaldırıldı",
+    "update_available": "Güncelleme mevcut",
+    "slow_connection": "Yavaş bağlantı algılandı",
+    "high_gas_fee": "Yüksek gas ücreti",
+    "pending_transaction": "Bekleyen işlem var"
+  },
+  "info": {
+    "transaction_pending": "İşlem işleniyor",
+    "transaction_complete": "İşlem tamamlandı",
+    "sync_in_progress": "Senkronizasyon devam ediyor",
+    "backup_created": "Yedek oluşturuldu",
+    "wallet_created": "Cüzdan oluşturuldu",
+    "connection_established": "Bağlantı kuruldu",
+    "mining_started": "Madencilik başlatıldı",
+    "block_mined": "Blok çıkarıldı"
+  },
+  "success": {
+    "transaction_sent": "İşlem başarıyla gönderildi",
+    "wallet_imported": "Cüzdan başarıyla içe aktarıldı",
+    "settings_saved": "Ayarlar kaydedildi",
+    "profile_updated": "Profil güncellendi"
+  }
+}
