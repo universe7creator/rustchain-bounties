@@ -1,0 +1,18 @@
+# Example: Dry-run mode for testing
+name: RTC Reward — Dry Run Test
+
+on:
+  pull_request:
+    types: [closed]
+
+jobs:
+  reward:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+      - uses: Scottcjn/rtc-reward-action@v1
+        with:
+          node-url: https://50.28.86.131
+          amount: 5
+          admin-key: ${{ secrets.RTC_ADMIN_KEY }}
+          dry-run: true

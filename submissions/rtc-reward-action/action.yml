@@ -1,0 +1,56 @@
+name: RTC Reward Action
+author: Claude / UniverseCreator
+description: |
+  Automatically award RTC tokens when a PR is merged.
+  Contributors add a .rtc-wallet file or include wallet address in PR body.
+  Posts a PR comment confirming payment — fully idempotent.
+
+inputs:
+  node-url:
+    description: RustChain node URL (e.g. https://50.28.86.131)
+    required: true
+    default: https://50.28.86.131
+  amount:
+    description: RTC amount to award per merged PR
+    required: false
+    default: "5"
+  wallet-from:
+    description: Source wallet name for payments
+    required: false
+    default: founder_community
+  admin-key:
+    description: Admin key for wallet transfer API
+    required: true
+  dry-run:
+    description: Enable dry-run mode (logs only, no actual transfer)
+    required: false
+    default: "false"
+
+outputs:
+  wallet_found:
+    description: "Whether a valid wallet address was found for the contributor"
+  wallet_name:
+    description: "The discovered wallet address or name"
+  amount:
+    description: "Amount of RTC actually transferred (0 in dry-run or if no wallet)"
+  tx_hash:
+    description: "Transaction hash of the transfer"
+  already_paid:
+    description: "Whether this PR already received a reward (idempotent skip)"
+
+runs:
+  using: composite
+  steps:
+    - name: Run RTC Reward Action
+      shell: bash
+      env:
+        RTC_NODE_URL: ${{ inputs.node-url }}
+        RTC_AMOUNT: ${{ inputs.amount }}
+        RTC_WALLET_FROM: ${{ inputs.wallet-from }}
+        RTC_ADMIN_KEY: ${{ inputs.admin-key }}
+        RTC_DRY_RUN: ${{ inputs.dry-run }}
+        GITHUB_TOKEN: ${{ env.GITHUB_TOKEN }}
+        PR_AUTHOR: ${{ github.event.pull_request.user.login }}
+        PR_NUMBER: ${{ github.event.pull_request.number }}
+        REPO: ${{ github.repository }}
+      run: ${{ github.action_path }}/src/run.sh

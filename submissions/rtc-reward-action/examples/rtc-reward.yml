@@ -1,0 +1,18 @@
+# Example: .github/workflows/rtc-reward.yml
+# Drop this into any repo to auto-reward PR contributors with RTC
+name: RTC Reward on Merge
+
+on:
+  pull_request:
+    types: [closed]
+
+jobs:
+  reward:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+      - uses: Scottcjn/rtc-reward-action@v1
+        with:
+          node-url: https://50.28.86.131
+          amount: 5
+          admin-key: ${{ secrets.RTC_ADMIN_KEY }}
